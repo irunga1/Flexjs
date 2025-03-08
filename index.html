@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rick and Morty Characters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #282c34;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            margin-top: 20px;
+        }
+        
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .character-card {
+            background-color: #3c3f47;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .character-card img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .character-card:hover img {
+            transform: scale(1.1) rotate(5deg);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Rick and Morty Characters</h1>
+    <div id="container"></div>
+    <script type="module" src="main.js"></script>
+
+</body>
+
+</html>
