@@ -1,5 +1,6 @@
 import { RickAndMorty } from "./models/RickAndMorty.js";
 import { viewName } from "./views/viewName.js";
+import { viewNameAlt } from "./views/viewNameAlt.js";
 import { nfm1 } from "./helper/nfm.js";
 
 document.addEventListener("DOMContentLoaded", () => {
