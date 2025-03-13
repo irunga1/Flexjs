@@ -9,4 +9,5 @@ export const viewName = (info = [], id) => {
         `;
     });
     document.getElementById(id).innerHTML = str;
+    console.log(str);
 };
