@@ -5,9 +5,9 @@ export class FlexJS {
         this.url = url;
     }
 
-    init(view, fnc, contentId = "content") {
+    init(view, fnc, contentId = "content", mdl) {
         document.addEventListener("DOMContentLoaded", () => {
-            let obj = new RickAndMorty(this.url);
+            let obj = new mdl(this.url);
             obj.showData(view, fnc, contentId);
         });
     }
