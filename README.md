@@ -1,73 +1,63 @@
-# FlexJS - Mini Framework JS
+ ⚡ LiteFlex - Mini Framework Modular para APIs REST
 
-FlexJS es un mini framework en JavaScript diseñado para manejar vistas dinámicas, consumo de APIs y eventos sin depender de librerías externas. Su arquitectura modular permite reutilizar funciones, vistas y facilitar la gestión de datos en aplicaciones web.
+**LiteFlex** es un **mini framework en JavaScript puro** diseñado para facilitar el consumo de APIs REST y el renderizado dinámico de datos en el navegador. Su arquitectura modular permite separar responsabilidades y reutilizar lógica de forma simple y escalable.
 
-## Características
+Aunque el ejemplo incluido utiliza la **API de Rick and Morty**, LiteFlex es completamente adaptable a **cualquier API pública o privada** que devuelva datos en formato JSON.
 
-- Consumo de APIs con un módulo base reutilizable.
-- Gestión de vistas dinámicas para actualizar el DOM fácilmente.
-- Sistema de eventos que facilita la interacción con elementos de la UI.
-- Selector de elementos similar a jQuery para simplificar el acceso al DOM.
-- Escalabilidad, permitiendo agregar nuevas vistas y modelos sin modificar el core.
+## 🧩 ¿Qué es LiteFlex?
 
-## Estructura del Proyecto
+Un micro-framework ligero y extensible que permite:
 
-/project-root  
-│── /core  
-│   ├── Flex.js  # Clase principal que gestiona la aplicación  
-│── /models  
-│   ├── ApiModule.js  # Módulo base para manejar peticiones API  
-│   ├── RickAndMorty.js  # Implementación de ApiModule (Ejemplo de uso)  
-│── /views  
-│   ├── viewName.js  # Vista principal para renderizar datos  
-│   ├── viewNameAlt.js  # Vista alternativa  
-│── /helper  
-│   ├── nfm.js  # Módulo para manejar eventos en la UI  
-│── /libs  
-│   ├── QuerySelector.js  # Selector de elementos con funciones optimizadas  
-│── index.html  # Página principal  
-│── main.js  # Punto de entrada del framework  
+- Conectar a cualquier API.
+- Renderizar los datos mediante funciones de vista personalizadas.
+- Aplicar lógica antes y después del renderizado.
+- Usar un flujo claro y modular en JavaScript moderno (ES6+).
 
-## Instalación y Uso
+## 👀 Ejemplo: Rick and Morty
 
-1. Clona el repositorio:  
+Este proyecto viene con un ejemplo que utiliza la [Rick and Morty API](https://rickandmortyapi.com/), mostrando personajes mediante tarjetas animadas. Este ejemplo puede ser fácilmente reemplazado por cualquier otra fuente de datos.
 
-   git clone https://github.com/tuusuario/FlexJS.git  
-   cd FlexJS  
+## 📁 Estructura del proyecto
 
-2. Usa un servidor local como Live Server o abre index.html en el navegador.  
 
-## Ejemplo de Uso
+## ⚙️ ¿Cómo funciona?
 
-import { FlexJS } from "./core/Flex.js";  
-import { RickAndMorty } from "./models/RickAndMorty.js";  
-import { viewName } from "./views/viewName.js";  
-import { nfm1 } from "./helper/nfm.js";  
+1. `FlexJS` gestiona el flujo general al cargar el DOM.
+2. Un modelo (como `RickAndMorty`) extiende de `ApiModule` y maneja las peticiones.
+3. Una vista (`viewName` o `viewNameAlt`) define cómo mostrar los datos.
+4. Se ejecutan funciones opcionales antes (`prefn`) y después (`nfm1`) del renderizado para personalización adicional.
 
-const app = new FlexJS("https://rickandmortyapi.com/api/character");  
-app.init(viewName, nfm1, "container", RickAndMorty);  
+## 🧪 Tecnologías utilizadas
 
-## Extender el Framework
+- HTML5
+- CSS3
+- JavaScript ES6+ (con módulos)
+- APIs REST externas (ejemplo: Rick and Morty API)
 
-Para consumir otra API, simplemente crea un nuevo modelo extendiendo ApiModule y pásalo a FlexJS.  
+## ⚡ Características
 
-import { ApiModule } from "./models/ApiModule.js";  
+- **Modular y extensible**: fácilmente adaptable a otras APIs o estructuras de datos.
+- **Sin dependencias externas**: 100% JavaScript puro.
+- **Reutilizable**: define tus propios modelos, vistas y lógica.
+- **Minimalista y claro**: ideal para prácticas o prototipos rápidos.
 
-export class MyApi extends ApiModule {  
-    constructor(url = "") {  
-        super(url);  
-    }  
-}  
+## 📦 Cómo usar LiteFlex
 
-Luego usa MyApi en FlexJS:  
+1. Clona o descarga el proyecto.
+2. Abre `index.html` en tu navegador.
+3. Modifica `main.js` para apuntar a otra API si lo deseas.
+4. Cambia vistas, modelos o helpers según tu necesidad.
 
-const app = new FlexJS("https://miapi.com/data");  
-app.init(miVista, miEvento, "container", MyApi);  
+## ✏️ Personalización
 
-## Contribución
+- Reemplaza `RickAndMorty.js` por otro modelo que apunte a tu API.
+- Crea una vista personalizada en `views/`.
+- Agrega lógica adicional en los helpers para animaciones, eventos, etc.
 
-Si deseas contribuir, abre un issue o un pull request en el repositorio.  
+## 🛠️ Ideas para futuras mejoras
 
-## Licencia
+- Integración con paginación.
+- Filtros o búsqueda.
+- Soporte para múltiples modelos en una misma vista.
+- Compatibilidad con componentes reutilizables.
 
-Este proyecto se distribuye bajo la licencia MIT.  

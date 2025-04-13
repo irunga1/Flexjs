@@ -16,5 +16,6 @@ export class ApiModule {
         console.log(data1);
         view(data1.results, content);
         psRender();
+        console.log(ndta)
     }
 }
