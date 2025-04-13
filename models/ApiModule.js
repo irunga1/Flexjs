@@ -10,10 +10,11 @@ export class ApiModule {
         return data;
     }
 
-    async showData(view, nfm, content = "container") {
+    async showData(view, psRender, content = "container", prRender = () => {}, ndta = null) {
         let data1 = await this.getData();
+        prRender();
         console.log(data1);
         view(data1.results, content);
-        nfm();
+        psRender();
     }
 }
