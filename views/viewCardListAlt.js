@@ -1,4 +1,4 @@
-export const viewNameAlt = (info = [], id) => {
+export const viewCardListAlt = (info = [], id) => {
     let str = "<ul class='character-list'>";
     info.forEach((el) => {
         str += `

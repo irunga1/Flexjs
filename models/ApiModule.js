@@ -14,6 +14,9 @@ export class ApiModule {
         let data1 = await this.getData();
         prRender();
         console.log(data1);
+        if(typeof data1.results === 'undefined') {
+            data1.results = data1;
+        }
         view(data1.results, content);
         psRender();
         console.log(ndta)
