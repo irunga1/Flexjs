@@ -1,4 +1,4 @@
-export const preRenderFn = () => {
-    let cheers = `Hola Antes de iniciar`;
-    console.log(cheers);
-}
+export const runBeforeRender = () => {
+    const welcomeMessage = "Hola Antes de iniciar";
+    console.log(welcomeMessage);
+};

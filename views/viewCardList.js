@@ -1,19 +1,17 @@
-export const viewCardList = (info = [], id) => {
-    // Asegurar que 'info' sea un array
-    const data = (Array.isArray(info)) ? info : (info && typeof info === 'object' ? [info] : []);
+export const viewCardList = (items = [], containerId) => {
+    const characterList = Array.isArray(items) ? items : (items && typeof items === "object" ? [items] : []);
 
-    let str = "";
-    data.forEach((el) => {
-        if (el && el.image && el.name) {
-            str += `
+    let cardMarkup = "";
+    characterList.forEach((character) => {
+        if (character && character.image && character.name) {
+            cardMarkup += `
                 <div class="character-card">
-                    <img src="${el.image}" alt="${el.name}">
-                    <h3>${el.name}</h3>
+                    <img src="${character.image}" alt="${character.name}">
+                    <h3>${character.name}</h3>
                 </div>
             `;
         }
     });
 
-    const container = document.getElementById(id);
-    document.getElementById(id).innerHTML = str;
+    document.getElementById(containerId).innerHTML = cardMarkup;
 };

@@ -1,20 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rick and Morty Characters</title>
-    <style>
-
-    </style>
+    <title>ModularJS Stream</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Rick and Morty Characters</h1>
-    <div id="container"></div>
-    <script type="module" src="main2.js"></script>
+    <header class="topbar">
+        <div class="brand">MODULARFLIX</div>
+        <nav class="topnav" aria-label="Principal">
+            <a href="#">Inicio</a>
+            <a href="#">Series</a>
+            <a href="#">Peliculas</a>
+            <a href="#">Mi lista</a>
+        </nav>
+    </header>
 
+    <main>
+        <section class="hero" id="hero-backdrop">
+            <div class="hero-shade"></div>
+            <div class="hero-content">
+                <p class="hero-kicker">Streaming demo</p>
+                <h1 id="hero-title">Cargando cartelera...</h1>
+                <p id="hero-meta" class="hero-meta">Popular en TMDB</p>
+                <p id="hero-description" class="hero-description">
+                    Una portada principal inspirada en plataformas de streaming, conectada a tu listado actual de peliculas.
+                </p>
+                <div class="hero-actions">
+                    <button id="hero-play" class="hero-button hero-button-primary" type="button">Reproducir</button>
+                    <button id="hero-more" class="hero-button hero-button-secondary" type="button">Mas informacion</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="rail-section">
+            <div class="section-heading">
+                <p class="section-eyebrow">Explora</p>
+                <h2>Tendencias para ti</h2>
+            </div>
+            <div id="container" class="content-rail"></div>
+        </section>
+    </main>
+
+    <script type="module" src="main4.js"></script>
 </body>
 
 </html>

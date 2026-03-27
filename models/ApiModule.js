@@ -1,30 +1,25 @@
 export class ApiModule {
-    constructor(url = "") {
-        this.url = url;
+    constructor(apiUrl = "") {
+        this.url = apiUrl;
     }
 
     async getData() {
-        // let urlPart = `character`;
-        let api = await fetch(`${this.url}`);
-        let data = await api.json();
-        return data;
+        const response = await fetch(this.url);
+        const responseData = await response.json();
+        return responseData;
     }
 
-    async showData(view, psRender, content = "container", prRender = () => {}, ndta = "results") {
-        let data1 = await this.getData();
-        prRender();
-        console.log(data1);
-        // if(typeof data1.results === 'undefined') {
-        //     data1.results = data1;
-        // }
-        if(ndta && data1.hasOwnProperty(ndta)) {
-            data1.results = data1[ndta];
-        } else if(typeof data1.results === 'undefined') {
-            data1.results = data1;
+    async showData(renderView, afterRenderCallback, containerId = "container", beforeRenderCallback = () => {}, dataKey = "results") {
+        const responseData = await this.getData();
+        beforeRenderCallback();
+
+        if (dataKey && responseData.hasOwnProperty(dataKey)) {
+            responseData.results = responseData[dataKey];
+        } else if (typeof responseData.results === "undefined") {
+            responseData.results = responseData;
         }
 
-        view(data1.results, content);
-        psRender();
-        console.log(ndta)
+        renderView(responseData.results, containerId);
+        afterRenderCallback();
     }
 }

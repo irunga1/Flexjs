@@ -1,17 +1,17 @@
-export const productCard = (info = [], id) => {
-    const data = (Array.isArray(info)) ? info : (info && typeof info === 'object' ? [info] : []);
-    let str = "";
-    data.forEach((el) => {
-        if (el && el.image && el.title) {
-            str += `
+export const productCard = (items = [], containerId) => {
+    const productList = Array.isArray(items) ? items : (items && typeof items === "object" ? [items] : []);
+    let cardMarkup = "";
+    productList.forEach((product) => {
+        if (product && product.image && product.title) {
+            cardMarkup += `
                 <div class="character-card">
-                    <img src="${el.image}" alt="${el.title}">
-                    <h3>${el.title}</h3>
-                    <p class="category">${el.category}</p>
-                    <p class="price">$${el.price.toFixed(2)}</p>
+                    <img src="${product.image}" alt="${product.title}">
+                    <h3>${product.title}</h3>
+                    <p class="category">${product.category}</p>
+                    <p class="price">$${product.price.toFixed(2)}</p>
                 </div>
             `;
         }
     });
-    document.getElementById(id).innerHTML = str;
+    document.getElementById(containerId).innerHTML = cardMarkup;
 };

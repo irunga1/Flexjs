@@ -1,9 +1,9 @@
 import { ApiModule } from './ApiModule.js';
 
 export class RickAndMorty extends ApiModule {
-    constructor(url = "") {
-        super(url); // Llama al constructor de la clase base
+    constructor(apiUrl = "") {
+        super(apiUrl);
     }
 
-    // Puedes agregar métodos específicos de Rick and Morty si es necesario
+    // Puedes agregar metodos especificos de Rick and Morty si es necesario.
 }

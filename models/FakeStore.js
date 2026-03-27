@@ -3,8 +3,8 @@
 import { ApiModule } from "./ApiModule.js";
  
 export class FakeStore extends ApiModule {
-    constructor(url) {
-        super(url);
+    constructor(apiUrl) {
+        super(apiUrl);
     }
 }
  

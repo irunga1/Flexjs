@@ -3,26 +3,24 @@ export class Utilery {
         this.firstProp = firstProp
     }
     getParams = () => {
-        let url= window.location.href;
-        let params = url.split('?');
-        if (params.length <= 1) {
+        const currentUrl = window.location.href;
+        let queryParts = currentUrl.split('?');
+        if (queryParts.length <= 1) {
             return [];
         }
-        else{
-            params = params[1];
+        else {
+            queryParts = queryParts[1];
         }
-        let paramsArray = params.split('=');
-        let paramsStr = `/${paramsArray[1]}`;
-        // let paramsArray = params.split('&');
+        const keyValueParts = queryParts.split('=');
+        const routeSuffix = `/${keyValueParts[1]}`;
 
-        // let paramsArray2 = [];
-        // for (let i=0; i<paramsArray.length; i++){
-        //     let tmp = paramsArray[i].split('=');
-
-        //     paramsArray2[tmp[0]] = tmp[1];
-
-        // }
-        return paramsStr;
-    } 
+        return routeSuffix;
+    }
+    getParamsSP = () => {
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        if ([...urlSearchParams].length === 0) return [];
+        const routeSuffix = `/${urlSearchParams.values().next().value}`;
+        return routeSuffix;
+    };
 
 }

@@ -1,30 +1,24 @@
 import { Utilery } from "../libs/Utilery.js";
 // import { $ } from " ./libs/QuerySelector";
 export class FlexJS {
-    constructor(url = "") {
-        let params = this.getParams();
-        console.log("params");  
-        console.log(params.length);
-        // this.url = (params.length > 0) ? params : url;
-        this.url = (params.length > 0) ? url+params: url;
-        // this.url = url;
+    constructor(baseUrl = "") {
+        const routeSuffix = this.getRouteSuffix();
+        this.url = routeSuffix.length > 0 ? `${baseUrl}${routeSuffix}` : baseUrl;
     }
-    getParams = () => {
-        let obj = new Utilery();
-        let params = obj.getParams();
-        return params;
-    }
-    init(view, fnc, contentId = "content", mdl, prRender) {
+    getRouteSuffix = () => {
+        const utility = new Utilery();
+        return utility.getParamsSP();
+    };
+    init(renderView, afterRenderCallback, containerId = "content", ModelClass, beforeRenderCallback) {
         document.addEventListener("DOMContentLoaded", () => {
-            let obj = new mdl(this.url);
-            // obj.showData(view, fnc, contentId, prRender);
-            obj.showData(view, fnc, contentId, prRender,"result");
+            const modelInstance = new ModelClass(this.url);
+            modelInstance.showData(renderView, afterRenderCallback, containerId, beforeRenderCallback, "results");
         });
     }
-    callCSS = (page="page.css") => {
+    applyStylesheet = (stylesheetName = "page.css") => {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = `./css/${page}`;
+        link.href = `./css/${stylesheetName}`;
         document.head.appendChild(link);
-    }
+    };
 }

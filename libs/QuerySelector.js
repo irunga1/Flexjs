@@ -1,8 +1,8 @@
-export const $ = (el) => {
-    if (el.startsWith('#')) {
-        return document.querySelector(el); 
-    } else if (el.startsWith('.')) {
-        return document.querySelectorAll(el); 
+export const $ = (selector) => {
+    if (selector.startsWith('#')) {
+        return document.querySelector(selector);
+    } else if (selector.startsWith('.')) {
+        return document.querySelectorAll(selector);
     }
-    return null; 
-}
+    return null;
+};

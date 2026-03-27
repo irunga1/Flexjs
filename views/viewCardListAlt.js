@@ -1,16 +1,16 @@
-export const viewCardListAlt = (info = [], id) => {
-    let str = "<ul class='character-list'>";
-    info.forEach((el) => {
-        str += `
+export const viewCardListAlt = (items = [], containerId) => {
+    let listMarkup = "<ul class='character-list'>";
+    items.forEach((character) => {
+        listMarkup += `
             <li class="character-item">
-                <img src="${el.image}" alt="${el.name}" class="character-img">
+                <img src="${character.image}" alt="${character.name}" class="character-img">
                 <div class="character-info">
-                    <h3>${el.name}</h3>
-                    <p>Especie: ${el.species}</p>
+                    <h3>${character.name}</h3>
+                    <p>Especie: ${character.species}</p>
                 </div>
             </li>
         `;
     });
-    str += "</ul>";
-    document.getElementById(id).innerHTML = str;
+    listMarkup += "</ul>";
+    document.getElementById(containerId).innerHTML = listMarkup;
 };

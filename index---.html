@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rick and Morty Characters</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <h1>Rick and Morty Characters</h1>
+    <div id="container"></div>
+
+    <div id="product-modal" class="modal hidden" aria-hidden="true">
+        <div class="modal-overlay" data-close-modal="true"></div>
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <button id="modal-close" class="modal-close" type="button" aria-label="Cerrar modal">&times;</button>
+            <img id="modal-image" class="modal-image" src="" alt="">
+            <h2 id="modal-title"></h2>
+            <p id="modal-category" class="modal-text"></p>
+            <p id="modal-price" class="modal-text modal-price"></p>
+        </div>
+    </div>
+    <script type="module" src="main.js"></script>
+
+</body>
+
+</html>
