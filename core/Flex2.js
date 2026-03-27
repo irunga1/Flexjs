@@ -17,14 +17,9 @@ export class FlexJS {
     init(view, fnc, contentId = "content", mdl, prRender) {
         document.addEventListener("DOMContentLoaded", () => {
             let obj = new mdl(this.url);
-            // obj.showData(view, fnc, contentId, prRender);
-            obj.showData(view, fnc, contentId, prRender,"result");
+            obj.showData(view, fnc, contentId, prRender);
         });
     }
-    callCSS = (page="page.css") => {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = `./css/${page}`;
-        document.head.appendChild(link);
-    }
+
+
 }

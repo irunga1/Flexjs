@@ -8,4 +8,5 @@ const app = new FlexJS(`https://rickandmortyapi.com/api/${uriParm}`);
 // const app = new FlexJS("https://rickandmortyapi.com/api/character");
 // app.getParams();
 app.init(viewCardList, postRenderFn, "container", RickAndMorty, preRenderFn, 10);
+app.callCSS();
 

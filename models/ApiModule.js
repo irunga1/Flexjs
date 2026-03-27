@@ -10,13 +10,19 @@ export class ApiModule {
         return data;
     }
 
-    async showData(view, psRender, content = "container", prRender = () => {}, ndta = null) {
+    async showData(view, psRender, content = "container", prRender = () => {}, ndta = "results") {
         let data1 = await this.getData();
         prRender();
         console.log(data1);
-        if(typeof data1.results === 'undefined') {
+        // if(typeof data1.results === 'undefined') {
+        //     data1.results = data1;
+        // }
+        if(ndta && data1.hasOwnProperty(ndta)) {
+            data1.results = data1[ndta];
+        } else if(typeof data1.results === 'undefined') {
             data1.results = data1;
         }
+
         view(data1.results, content);
         psRender();
         console.log(ndta)
