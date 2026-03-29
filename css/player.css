@@ -1,0 +1,120 @@
+:root {
+    --player-bg: #08111f;
+    --player-surface: #101b2d;
+    --player-surface-soft: #15253f;
+    --player-ink: #f7f9fc;
+    --player-muted: #afbdd0;
+    --player-accent: #e50914;
+    --player-line: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top, rgba(229, 9, 20, 0.18), transparent 22%),
+        linear-gradient(180deg, #0d1626, var(--player-bg));
+    color: var(--player-ink);
+    font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+}
+
+#container {
+    padding: 32px 20px 48px;
+}
+
+.player-shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    gap: 24px;
+}
+
+.player-copy {
+    max-width: 860px;
+}
+
+.player-eyebrow {
+    margin: 0 0 10px;
+    color: #ffb3b8;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.player-copy h1 {
+    margin: 0 0 12px;
+    font-size: clamp(2.4rem, 5vw, 4.6rem);
+    line-height: 0.95;
+}
+
+.player-meta {
+    margin: 0 0 12px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.player-description {
+    margin: 0;
+    color: var(--player-muted);
+    font-size: 1.04rem;
+    line-height: 1.7;
+}
+
+.player-stage {
+    background: linear-gradient(180deg, var(--player-surface), var(--player-surface-soft));
+    border: 1px solid var(--player-line);
+    border-radius: 28px;
+    padding: 18px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.player-video {
+    width: 100%;
+    display: block;
+    border-radius: 18px;
+    background: #000000;
+    aspect-ratio: 16 / 9;
+}
+
+.player-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.player-actions button {
+    border: 0;
+    border-radius: 999px;
+    padding: 12px 18px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#play-toggle {
+    background: var(--player-accent);
+    color: #ffffff;
+}
+
+#restart-video {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--player-ink);
+    border: 1px solid var(--player-line);
+}
+
+@media (max-width: 680px) {
+    #container {
+        padding: 20px 14px 32px;
+    }
+
+    .player-stage {
+        padding: 12px;
+        border-radius: 18px;
+    }
+
+    .player-actions {
+        flex-direction: column;
+    }
+}

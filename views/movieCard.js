@@ -40,6 +40,7 @@ export const movieCard = (items = [], containerId) => {
             <article
                 class="character-card"
                 tabindex="0"
+                data-id="${sanitizeAttr(movie.id || "")}"
                 data-title="${sanitizeAttr(movie.title)}"
                 data-release="${sanitizeAttr(releaseDate)}"
                 data-rating="${sanitizeAttr(voteAverage)}"
@@ -80,10 +81,25 @@ export const movieCard = (items = [], containerId) => {
                         <h4 class="rail-expand-title"></h4>
                         <p class="rail-expand-meta"></p>
                         <p class="rail-expand-description"></p>
+                        <div class="rail-expand-actions">
+                            <button class="rail-expand-watch" type="button">Ver trailer</button>
+                            <a class="rail-expand-youtube" href="#" target="_blank" rel="noopener noreferrer" hidden>Abrir en YouTube</a>
+                        </div>
                     </div>
                     <div class="rail-expand-poster-wrap">
                         <img class="rail-expand-poster" src="" alt="">
                     </div>
+                </div>
+                <div class="rail-expand-video" hidden>
+                    <iframe
+                        class="rail-expand-iframe"
+                        src=""
+                        title="Trailer"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                    ></iframe>
+                    <p class="rail-expand-video-empty" hidden>No se encontro trailer para esta pelicula.</p>
                 </div>
             </div>
         </section>

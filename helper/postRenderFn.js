@@ -8,8 +8,9 @@
 //     });
 // };
 
-
 import { $ } from '../libs/QuerySelector.js';
+import { getMovieVideosUrl, getYoutubeEmbedUrl, getYoutubeWatchUrl } from '../models/TMDB.js';
+
 export const runPostRender = () => {
     const cardElements = $('.character-card');
     const heroTitle = $('#hero-title');
@@ -19,11 +20,98 @@ export const runPostRender = () => {
     const heroPlay = $('#hero-play');
     const heroMore = $('#hero-more');
     const railRows = document.querySelectorAll('.rail-row');
+    const trailerCache = new Map();
+
+    const resetPanelTrailer = (panel) => {
+        const iframe = panel?.querySelector('.rail-expand-iframe');
+        const videoSection = panel?.querySelector('.rail-expand-video');
+        const emptyState = panel?.querySelector('.rail-expand-video-empty');
+        const youtubeLink = panel?.querySelector('.rail-expand-youtube');
+        const watchButton = panel?.querySelector('.rail-expand-watch');
+
+        if (iframe) {
+            iframe.src = '';
+        }
+        if (videoSection) {
+            videoSection.hidden = true;
+        }
+        if (emptyState) {
+            emptyState.hidden = true;
+        }
+        if (youtubeLink) {
+            youtubeLink.hidden = true;
+            youtubeLink.href = '#';
+        }
+        if (watchButton) {
+            watchButton.disabled = false;
+            watchButton.textContent = 'Ver trailer';
+        }
+    };
+
+    const getBestTrailer = async (movieId) => {
+        if (!movieId) {
+            return null;
+        }
+
+        if (trailerCache.has(movieId)) {
+            return trailerCache.get(movieId);
+        }
+
+        try {
+            const response = await fetch(getMovieVideosUrl(movieId));
+            const data = await response.json();
+            const videos = Array.isArray(data.results) ? data.results : [];
+            const trailer = videos.find((video) => video.site === 'YouTube' && video.type === 'Trailer' && video.official)
+                || videos.find((video) => video.site === 'YouTube' && video.type === 'Trailer')
+                || videos.find((video) => video.site === 'YouTube' && video.type === 'Teaser')
+                || null;
+
+            trailerCache.set(movieId, trailer);
+            return trailer;
+        } catch (error) {
+            console.error('No se pudieron cargar los videos de TMDB:', error);
+            trailerCache.set(movieId, null);
+            return null;
+        }
+    };
+
+    const loadTrailerIntoPanel = async (cardElement, panel) => {
+        const watchButton = panel?.querySelector('.rail-expand-watch');
+        const youtubeLink = panel?.querySelector('.rail-expand-youtube');
+        const videoSection = panel?.querySelector('.rail-expand-video');
+        const iframe = panel?.querySelector('.rail-expand-iframe');
+        const emptyState = panel?.querySelector('.rail-expand-video-empty');
+
+        if (!watchButton || !youtubeLink || !videoSection || !iframe || !emptyState) {
+            return;
+        }
+
+        watchButton.disabled = true;
+        watchButton.textContent = 'Cargando trailer...';
+
+        const trailer = await getBestTrailer(cardElement.dataset.id);
+
+        if (!trailer?.key) {
+            videoSection.hidden = false;
+            emptyState.hidden = false;
+            watchButton.textContent = 'Sin trailer';
+            return;
+        }
+
+        const embedUrl = getYoutubeEmbedUrl(trailer.key);
+        iframe.src = embedUrl;
+        videoSection.hidden = false;
+        emptyState.hidden = true;
+        youtubeLink.href = getYoutubeWatchUrl(trailer.key);
+        youtubeLink.hidden = false;
+        watchButton.textContent = 'Reproduciendo';
+    };
 
     const closeAllExpansions = () => {
         railRows.forEach((row) => {
             const panel = row.querySelector('.rail-expand');
             const activeCard = row.querySelector('.character-card.is-active');
+            resetPanelTrailer(panel);
             if (panel) {
                 panel.hidden = true;
                 panel.classList.remove('is-open');
@@ -34,7 +122,7 @@ export const runPostRender = () => {
         });
     };
 
-    const openExpansion = (cardElement, { scrollIntoView = true } = {}) => {
+    const openExpansion = async (cardElement, { scrollIntoView = true, autoplayTrailer = false } = {}) => {
         const row = cardElement.closest('.rail-row');
         const panel = row?.querySelector('.rail-expand');
         const panelTitle = panel?.querySelector('.rail-expand-title');
@@ -42,8 +130,9 @@ export const runPostRender = () => {
         const panelDescription = panel?.querySelector('.rail-expand-description');
         const panelPoster = panel?.querySelector('.rail-expand-poster');
         const panelBackdrop = panel?.querySelector('.rail-expand-backdrop');
+        const panelWatch = panel?.querySelector('.rail-expand-watch');
 
-        if (!row || !panel || !panelTitle || !panelMeta || !panelDescription || !panelPoster || !panelBackdrop) {
+        if (!row || !panel || !panelTitle || !panelMeta || !panelDescription || !panelPoster || !panelBackdrop || !panelWatch) {
             return;
         }
 
@@ -64,11 +153,19 @@ export const runPostRender = () => {
             linear-gradient(90deg, rgba(6, 6, 6, 0.92) 0%, rgba(6, 6, 6, 0.52) 42%, rgba(6, 6, 6, 0.88) 100%),
             url("${cardElement.dataset.backdrop || cardElement.dataset.poster || ''}")
         `;
+        panelWatch.onclick = () => {
+            loadTrailerIntoPanel(cardElement, panel);
+        };
+        resetPanelTrailer(panel);
         panel.hidden = false;
         panel.classList.add('is-open');
 
         if (scrollIntoView) {
             panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        if (autoplayTrailer) {
+            await loadTrailerIntoPanel(cardElement, panel);
         }
     };
 
@@ -114,8 +211,8 @@ export const runPostRender = () => {
     }
 
     if (heroPlay && firstCard && !heroPlay.dataset.eventsBound) {
-        heroPlay.addEventListener('click', () => {
-            openExpansion(firstCard, { scrollIntoView: true });
+        heroPlay.addEventListener('click', async () => {
+            await openExpansion(firstCard, { scrollIntoView: true, autoplayTrailer: true });
         });
         heroPlay.dataset.eventsBound = 'true';
     }

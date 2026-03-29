@@ -1,6 +1,6 @@
 import { RickAndMorty } from "./models/RickAndMorty.js";
 import { viewCardList } from "./views/viewCardList.js";
-import { runPostRender } from "./helper/postRenderFn.js";
+import { runPostRender } from "./helper/postRenderFn2.js";
 import { FlexJS } from "./core/Flex.js";
 import { runBeforeRender } from "./helper/preRenderFn.js";
 const apiResource = "character";

@@ -1,63 +1,142 @@
- ⚡ LiteFlex - Mini Framework Modular para APIs REST
+# LiteFlex
 
-**LiteFlex** es un **mini framework en JavaScript puro** diseñado para facilitar el consumo de APIs REST y el renderizado dinámico de datos en el navegador. Su arquitectura modular permite separar responsabilidades y reutilizar lógica de forma simple y escalable.
+**LiteFlex** es un micro-framework en JavaScript modular orientado al ciclo de vida del render y a la integracion de datos, vistas y comportamiento en aplicaciones basadas en APIs.
 
-Aunque el ejemplo incluido utiliza la **API de Rick and Morty**, LiteFlex es completamente adaptable a **cualquier API pública o privada** que devuelva datos en formato JSON.
+Su objetivo no es competir directamente con React, Vue o Angular, sino ofrecer una base ligera para construir pantallas dinamicas con un flujo claro:
 
-## 🧩 ¿Qué es LiteFlex?
+1. obtener datos
+2. prepararlos
+3. renderizar una vista
+4. ejecutar logica antes y despues del render
 
-Un micro-framework ligero y extensible que permite:
+## Idea central
 
-- Conectar a cualquier API.
-- Renderizar los datos mediante funciones de vista personalizadas.
-- Aplicar lógica antes y después del renderizado.
-- Usar un flujo claro y modular en JavaScript moderno (ES6+).
+LiteFlex separa la aplicacion en piezas simples:
 
-## 👀 Ejemplo: Rick and Morty
+- `core/`: coordina el flujo general
+- `models/`: encapsulan el acceso a datos
+- `views/`: renderizan la interfaz
+- `helper/`: ejecutan logica antes y despues del render
 
-Este proyecto viene con un ejemplo que utiliza la [Rick and Morty API](https://rickandmortyapi.com/), mostrando personajes mediante tarjetas animadas. Este ejemplo puede ser fácilmente reemplazado por cualquier otra fuente de datos.
+Esto permite reutilizar la misma base para distintos dominios, por ejemplo:
 
-## 📁 Estructura del proyecto
+- personajes
+- productos
+- peliculas
+- catalogos
+- dashboards simples
 
+## Como funciona
 
-## ⚙️ ¿Cómo funciona?
+El flujo principal de LiteFlex es este:
 
-1. `FlexJS` gestiona el flujo general al cargar el DOM.
-2. Un modelo (como `RickAndMorty`) extiende de `ApiModule` y maneja las peticiones.
-3. Una vista (`viewName` o `viewNameAlt`) define cómo mostrar los datos.
-4. Se ejecutan funciones opcionales antes (`prefn`) y después (`nfm1`) del renderizado para personalización adicional.
+1. `main*.js` define la URL, el modelo, la vista y los hooks.
+2. `FlexJS` espera a que el DOM este listo.
+3. El modelo obtiene los datos desde una API.
+4. `ApiModule` normaliza la respuesta.
+5. Se ejecuta `preRender`.
+6. La vista genera el HTML.
+7. Se ejecuta `postRender` para eventos, interacciones o logica adicional.
 
-## 🧪 Tecnologías utilizadas
+## Estructura base
 
-- HTML5
-- CSS3
-- JavaScript ES6+ (con módulos)
-- APIs REST externas (ejemplo: Rick and Morty API)
+- `core/Flex.js`: orquestador principal.
+- `models/ApiModule.js`: clase base para consumo de APIs.
+- `models/`: modelos concretos como `TMDB`, `FakeStore` o `RickAndMorty`.
+- `views/`: funciones de render para cada tipo de interfaz.
+- `helper/preRenderFn.js`: logica previa al render.
+- `helper/postRenderFn.js`: logica posterior al render.
+- `main.js`, `main2.js`, `main3.js`, `main4.js`: puntos de entrada segun el ejemplo.
 
-## ⚡ Características
+## Instrucciones de uso
 
-- **Modular y extensible**: fácilmente adaptable a otras APIs o estructuras de datos.
-- **Sin dependencias externas**: 100% JavaScript puro.
-- **Reutilizable**: define tus propios modelos, vistas y lógica.
-- **Minimalista y claro**: ideal para prácticas o prototipos rápidos.
+### 1. Abrir el proyecto
 
-## 📦 Cómo usar LiteFlex
+Abre uno de los HTML del proyecto en un servidor local. Por ejemplo, si usas Live Server, puedes iniciar desde:
 
-1. Clona o descarga el proyecto.
-2. Abre `index.html` en tu navegador.
-3. Modifica `main.js` para apuntar a otra API si lo deseas.
-4. Cambia vistas, modelos o helpers según tu necesidad.
+- `index.html`
+- `index-netflix.html`
+- `movies.html`
 
-## ✏️ Personalización
+### 2. Elegir un punto de entrada
 
-- Reemplaza `RickAndMorty.js` por otro modelo que apunte a tu API.
-- Crea una vista personalizada en `views/`.
-- Agrega lógica adicional en los helpers para animaciones, eventos, etc.
+Cada archivo `main*.js` conecta una API con una vista distinta.
 
-## 🛠️ Ideas para futuras mejoras
+Ejemplos:
 
-- Integración con paginación.
-- Filtros o búsqueda.
-- Soporte para múltiples modelos en una misma vista.
-- Compatibilidad con componentes reutilizables.
+- `main.js`: ejemplo con Rick and Morty
+- `main2.js`: ejemplo con FakeStore
+- `main4.js`: ejemplo con TMDB
 
+## Ejemplo de uso
+
+```js
+import { TMDB } from "./models/TMDB.js";
+import { movieCard } from "./views/movieCard.js";
+import { runPostRender } from "./helper/postRenderFn.js";
+import { FlexJS } from "./core/Flex.js";
+import { runBeforeRender } from "./helper/preRenderFn.js";
+
+const apiUrl = "TU_API_AQUI";
+const flexApp = new FlexJS(apiUrl);
+
+flexApp.init(
+    movieCard,
+    runPostRender,
+    "container",
+    TMDB,
+    runBeforeRender
+);
+
+flexApp.applyStylesheet("netflix.css");
+```
+
+### 3. Crear un flujo nuevo
+
+Para usar LiteFlex con otra API:
+
+1. crea o reutiliza un modelo en `models/`
+2. crea una vista en `views/`
+3. define la URL en un `main*.js`
+4. llama a `new FlexJS(url)`
+5. inicializa con `init(...)`
+
+## Que puedes personalizar
+
+- la API de origen
+- la vista que renderiza los datos
+- el contenedor donde se pinta el HTML
+- la hoja de estilos
+- la logica previa al render
+- la logica posterior al render
+
+## Casos donde encaja bien
+
+- catalogos de productos
+- listados de peliculas o series
+- galerias de contenido
+- demos de APIs REST
+- proyectos academicos
+- prototipos modulares en JavaScript puro
+
+## Alcance del proyecto
+
+LiteFlex no esta pensado solo para pintar listas con `forEach`. Su propuesta es ofrecer un pipeline reutilizable para coordinar datos, render e interaccion.
+
+Los hooks de `preRender` y `postRender` permiten extender el comportamiento para:
+
+- eventos
+- peticiones adicionales
+- transformaciones
+- logica de interfaz
+- enriquecimiento del DOM
+
+## Futuras mejoras sugeridas
+
+- manejo formal de errores
+- estados de carga
+- sistema de estado global
+- actualizacion parcial del DOM
+- routing
+- paginacion y filtros
+- componentes mas reutilizables
