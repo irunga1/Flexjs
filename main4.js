@@ -7,6 +7,7 @@ import { getPopularMoviesUrl } from "./models/TMDB.js";
 
 const tmdbPopularMoviesUrl = getPopularMoviesUrl();
 
-const flexApp = new FlexJS(tmdbPopularMoviesUrl);
+const flexApp = new FlexJS(tmdbPopularMoviesUrl,"netflix.css");
+// flexApp.blackout(2500, 700);
 flexApp.init(movieCard, runPostRender, "container", TMDB, runBeforeRender, 20);
-flexApp.applyStylesheet("netflix.css");
+// flexApp.applyStylesheet("netflix.css");
