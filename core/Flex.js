@@ -4,9 +4,36 @@ export class FlexJS {
     constructor(baseUrl = "", css = "") {
         const routeSuffix = this.getRouteSuffix();
         this.url = routeSuffix.length > 0 ? `${baseUrl}${routeSuffix}` : baseUrl;
+        this.installLoadingGuard();
         if (css !== "") {
             this.applyStylesheet(css);
         }
+    }
+    installLoadingGuard() {
+        if (!document.getElementById("flex-loading-guard")) {
+            const style = document.createElement("style");
+            style.id = "flex-loading-guard";
+            style.textContent = `
+                html.flex-loading {
+                    background: #000;
+                }
+
+                html.flex-loading body {
+                    background: #000;
+                }
+
+                html.flex-loading body > * {
+                    visibility: hidden;
+                }
+
+                html.flex-loading body > #loading {
+                    visibility: visible;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        document.documentElement.classList.add("flex-loading");
     }
     getRouteSuffix = () => {
         const utility = new Utilery();
@@ -59,11 +86,13 @@ export class FlexJS {
     remove() {
         const el = document.getElementById("loading");
         if (!el) {
+            document.documentElement.classList.remove("flex-loading");
             return;
         }
         el.style.opacity = "0";
         setTimeout(() => {
             el.remove();
+            document.documentElement.classList.remove("flex-loading");
         }, 500);
     }
 }
