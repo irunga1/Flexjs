@@ -7,6 +7,7 @@ const apiResource = "character";
 const apiBaseUrl = `https://rickandmortyapi.com/api/${apiResource}`;
 const flexApp = new FlexJS(apiBaseUrl);
 flexApp.init(viewCardList, runPostRender, "container", RickAndMorty, runBeforeRender, 10);
+flexApp.init2(viewCardList, runPostRender, "container", RickAndMorty, runBeforeRender,"https://rickandmortyapi.com/api/character?page=2");
 flexApp.applyStylesheet();
 
 

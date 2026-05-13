@@ -1,8 +1,7 @@
 export const cardNews = (items = [], containerId = "container") => {
-    
     let strContent = "";
-    items.forEach((it)=>{
-        strContent +=`
+    items.forEach((it) => {
+        strContent += `
         <div class="card">
             <img src="${it.imagen}" alt="">
             <div class="card-content">
@@ -13,5 +12,11 @@ export const cardNews = (items = [], containerId = "container") => {
         </div>
         `;
     });
-    document.getElementById(containerId).innerHTML = strContent;
-}
+
+    const container = document.getElementById(containerId);
+    if (container.innerHTML.trim()) {
+        container.insertAdjacentHTML("beforeend", strContent);
+    } else {
+        container.innerHTML = strContent;
+    } 
+};

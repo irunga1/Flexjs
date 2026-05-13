@@ -1,56 +1,39 @@
 import { Utilery } from "../libs/Utilery.js";
+import { SetUrl } from '../libs/SetURL.js';
 // import { $ } from " ./libs/QuerySelector";
+window.SetUrl = SetUrl;
 export class FlexJS {
     constructor(baseUrl = "", css = "") {
         const routeSuffix = this.getRouteSuffix();
         this.url = routeSuffix.length > 0 ? `${baseUrl}${routeSuffix}` : baseUrl;
-        this.installLoadingGuard();
+        // this.installLoadingGuard();
         if (css !== "") {
             this.applyStylesheet(css);
         }
-    }
-    installLoadingGuard() {
-        if (!document.getElementById("flex-loading-guard")) {
-            const style = document.createElement("style");
-            style.id = "flex-loading-guard";
-            style.textContent = `
-                html.flex-loading {
-                    background: #000;
-                }
-
-                html.flex-loading body {
-                    background: #000;
-                }
-
-                html.flex-loading body > * {
-                    visibility: hidden;
-                }
-
-                html.flex-loading body > #loading {
-                    visibility: visible;
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        document.documentElement.classList.add("flex-loading");
     }
     getRouteSuffix = () => {
         const utility = new Utilery();
         return utility.getParamsSP();
     };
-    init(renderView, afterRenderCallback, containerId = "content", ModelClass, beforeRenderCallback) {
-        document.addEventListener("DOMContentLoaded", () => {
+    init(renderView, afterRenderCallback, containerId = "content", ModelClass, beforeRenderCallback,verMas = true) {
+        document.addEventListener("DOMContentLoaded", async() => {
             this.blackout();
             const modelInstance = new ModelClass(this.url);
-            modelInstance.showData(renderView, afterRenderCallback, containerId, beforeRenderCallback, "results");
+            await modelInstance.showData(renderView, afterRenderCallback, containerId, beforeRenderCallback, "results");
+            if (verMas) {
+                this.addBtnViewMore(4, containerId);
+            }
         });
     }
-    init2(renderView, afterRenderCallback, containerId = "content", ModelClass, beforeRenderCallback,url2) {
-        document.addEventListener("DOMContentLoaded", () => {
+    init2(renderView, afterRenderCallback, containerId = "content", ModelClass, beforeRenderCallback, url2, verMas = true) {
+        document.addEventListener("DOMContentLoaded", async () => {
             this.blackout();
             const modelInstance = new ModelClass(url2);
-            modelInstance.showData(renderView, afterRenderCallback, containerId, beforeRenderCallback, "results");
+            await modelInstance.showData(renderView, afterRenderCallback, containerId, beforeRenderCallback, "results");
+            if (verMas) {
+                this.addBtnViewMore(4, containerId);
+            }
+            
         });
     }
     applyStylesheet = (stylesheetName = "page.css") => {
@@ -86,13 +69,18 @@ export class FlexJS {
     remove() {
         const el = document.getElementById("loading");
         if (!el) {
-            document.documentElement.classList.remove("flex-loading");
+            // document.documentElement.classList.remove("flex-loading");
             return;
         }
         el.style.opacity = "0";
         setTimeout(() => {
             el.remove();
-            document.documentElement.classList.remove("flex-loading");
+            // document.documentElement.classList.remove("flex-loading");
         }, 500);
     }
+    addBtnViewMore = (intNumber =2 , strContent = "container",) => {
+        let strBtn = `<button onclick= SetUrl('${this.url}${intNumber}') >ver mas</button>`;
+        document.getElementById(strContent).insertAdjacentHTML("beforeend", strBtn);
+    }
+
 }

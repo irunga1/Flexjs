@@ -13,5 +13,11 @@ export const productCard = (items = [], containerId) => {
             `;
         }
     });
-    document.getElementById(containerId).innerHTML = cardMarkup;
+
+    const container = document.getElementById(containerId);
+    if (container.innerHTML.trim()) {
+        container.insertAdjacentHTML("beforeend", cardMarkup);
+    } else {
+        container.innerHTML = cardMarkup;
+    }
 };

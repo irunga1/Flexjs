@@ -9,5 +9,5 @@ const tmdbPopularMoviesUrl = getPopularMoviesUrl();
 
 const flexApp = new FlexJS(tmdbPopularMoviesUrl,"netflix.css");
 // flexApp.blackout(2500, 700);
-flexApp.init(movieCard, runPostRender, "container", TMDB, runBeforeRender, 20);
+flexApp.init(movieCard, runPostRender, "container", TMDB, runBeforeRender, true);
 // flexApp.applyStylesheet("netflix.css");

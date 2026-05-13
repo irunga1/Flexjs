@@ -1,7 +1,6 @@
 export const playerView = (state = {}, containerId = "container") => {
     const movie = state.movie || {};
-
-    document.getElementById(containerId).innerHTML = `
+    const playerMarkup = `
         <section class="player-shell">
             <header class="player-copy">
                 <p class="player-eyebrow">ModularFlix MVP</p>
@@ -29,4 +28,11 @@ export const playerView = (state = {}, containerId = "container") => {
             </section>
         </section>
     `;
+
+    const container = document.getElementById(containerId);
+    if (container.innerHTML.trim()) {
+        container.insertAdjacentHTML("beforeend", playerMarkup);
+    } else {
+        container.innerHTML = playerMarkup;
+    }
 };

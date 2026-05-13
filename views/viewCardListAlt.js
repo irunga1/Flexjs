@@ -12,5 +12,11 @@ export const viewCardListAlt = (items = [], containerId) => {
         `;
     });
     listMarkup += "</ul>";
-    document.getElementById(containerId).innerHTML = listMarkup;
+
+    const container = document.getElementById(containerId);
+    if (container.innerHTML.trim()) {
+        container.insertAdjacentHTML("beforeend", listMarkup);
+    } else {
+        container.innerHTML = listMarkup;
+    }
 };
