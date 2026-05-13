@@ -1,13 +1,11 @@
+var  pageApi =1;
 import { TMDB } from "./models/TMDB.js";
 import { movieCard } from "./views/movieCard.js";
 import { runPostRender } from "./helper/postRenderFn.js";
 import { FlexJS } from "./core/Flex.js";
 import { runBeforeRender } from "./helper/preRenderFn.js";
 import { getPopularMoviesUrl } from "./models/TMDB.js";
-
 const tmdbPopularMoviesUrl = getPopularMoviesUrl();
-
-const flexApp = new FlexJS(tmdbPopularMoviesUrl,"netflix.css");
-// flexApp.blackout(2500, 700);
+const flexApp = new FlexJS(tmdbPopularMoviesUrl,"netflix.css");// flexApp.blackout(2500, 700);
 flexApp.init(movieCard, runPostRender, "container", TMDB, runBeforeRender, true);
 // flexApp.applyStylesheet("netflix.css");

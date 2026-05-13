@@ -3,9 +3,11 @@ import { SetUrl } from '../libs/SetURL.js';
 // import { $ } from " ./libs/QuerySelector";
 window.SetUrl = SetUrl;
 export class FlexJS {
-    constructor(baseUrl = "", css = "") {
+    constructor(baseUrl = "", css = "",pageApi =1) {
         const routeSuffix = this.getRouteSuffix();
+        this.pageApi = pageApi;
         this.url = routeSuffix.length > 0 ? `${baseUrl}${routeSuffix}` : baseUrl;
+        window.flexApp = this;
         // this.installLoadingGuard();
         if (css !== "") {
             this.applyStylesheet(css);
@@ -16,6 +18,7 @@ export class FlexJS {
         return utility.getParamsSP();
     };
     init(renderView, afterRenderCallback, containerId = "content", ModelClass, beforeRenderCallback,verMas = true) {
+        this.viewConfig = { renderView, afterRenderCallback, containerId, ModelClass, beforeRenderCallback, verMas };
         document.addEventListener("DOMContentLoaded", async() => {
             this.blackout();
             const modelInstance = new ModelClass(this.url);
@@ -26,15 +29,27 @@ export class FlexJS {
         });
     }
     init2(renderView, afterRenderCallback, containerId = "content", ModelClass, beforeRenderCallback, url2, verMas = true) {
-        document.addEventListener("DOMContentLoaded", async () => {
+        this.viewConfig = { renderView, afterRenderCallback, containerId, ModelClass, beforeRenderCallback, verMas };
+        const loadPage = async () => {
+            this.url = url2;
+            const currentUrl = new URL(url2, window.location.href);
+            this.pageApi = Number(currentUrl.searchParams.get("page")) || this.pageApi;
+            document.getElementById("flex-view-more")?.remove();
             this.blackout();
             const modelInstance = new ModelClass(url2);
             await modelInstance.showData(renderView, afterRenderCallback, containerId, beforeRenderCallback, "results");
             if (verMas) {
                 this.addBtnViewMore(4, containerId);
             }
-            
-        });
+
+        };
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", loadPage);
+            return;
+        }
+
+        loadPage();
     }
     applyStylesheet = (stylesheetName = "page.css") => {
         const link = document.createElement('link');
@@ -78,8 +93,13 @@ export class FlexJS {
             // document.documentElement.classList.remove("flex-loading");
         }, 500);
     }
-    addBtnViewMore = (intNumber =2 , strContent = "container",) => {
-        let strBtn = `<button onclick= SetUrl('${this.url}${intNumber}') >ver mas</button>`;
+    addBtnViewMore = (intNumber =0 , strContent = "container",) => {
+        intNumber=  Number(this.pageApi)+1;
+        console.log(intNumber);
+        const url = new URL(this.url, window.location.href);
+        url.searchParams.set("page", intNumber);
+        document.getElementById("flex-view-more")?.remove();
+        let strBtn = `<button id="flex-view-more" onclick="SetUrl('${url.toString()}')">ver mas</button>`;
         document.getElementById(strContent).insertAdjacentHTML("beforeend", strBtn);
     }
 
